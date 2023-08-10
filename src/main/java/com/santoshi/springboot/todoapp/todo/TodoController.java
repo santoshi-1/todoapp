@@ -22,20 +22,23 @@ public class TodoController {
 
     @RequestMapping("list-todos")
     public String listAllTodos(ModelMap modelMap) {
-        List<Todo> todoList = todoService.findByUsername("Santoshi");
+        List<Todo> todoList = todoService.findByUsername("in28Minutes");
         modelMap.put("todos", todoList);
         return "listTodos";
     }
 
     @RequestMapping(value = "add-todo", method = RequestMethod.GET)
-    public String showTodoPage() {
+    public String showTodoPage(ModelMap modelMap) {
+        String username = (String) modelMap.get("name");
+        Todo todo = new Todo(0, username, "", LocalDate.now().plusYears(1), false);
+        modelMap.put("todo", todo);
         return "todo";
     }
 
     @RequestMapping(value = "add-todo", method = RequestMethod.POST)
-    public String addNewTodo(@RequestParam String description, ModelMap modelMap) {
+    public String addNewTodo(Todo todo, ModelMap modelMap) {
         String username = (String) modelMap.get("name");
-        todoService.addTodo(username, description, LocalDate.now().plusYears(1), false);
+        todoService.addTodo(username, todo.getDescription(), LocalDate.now().plusYears(1), false);
         return "redirect:list-todos";
     }
 
