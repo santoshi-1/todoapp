@@ -1,6 +1,8 @@
 package com.santoshi.springboot.todoapp.todo;
 
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,14 +26,20 @@ public class TodoController {
 
     @RequestMapping("list-todos")
     public String listAllTodos(ModelMap modelMap) {
-        List<Todo> todoList = todoService.findByUsername("in28Minutes");
+        String username = getLoggedInUserName();
+        List<Todo> todoList = todoService.findByUsername(username);
         modelMap.put("todos", todoList);
         return "listTodos";
     }
 
+    public String getLoggedInUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
     @RequestMapping(value = "add-todo", method = RequestMethod.GET)
     public String showTodoPage(ModelMap modelMap) {
-        String username = (String) modelMap.get("name");
+        String username = getLoggedInUserName();
         Todo todo = new Todo(0, username, "", LocalDate.now().plusYears(1), false);
         modelMap.put("todo", todo);
         return "todo";
