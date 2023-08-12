@@ -4,6 +4,7 @@
 <html>
     <head>
         <link href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/webjars/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
         <title> Add Todo Page</title>
     </head>
     <body>
@@ -20,5 +21,11 @@
        </div>
        <script src="/webjars/bootstrap/5.3.0/js/bootstrap.min.js"></script>
        <script src="/webjars/jquery/3.6.4/jquery.min.js"></script>
+       <script src="/webjars/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+       <script>
+       $('#targetDate').datepicker({
+           format: 'yyyy-mm-dd'
+       });
+       </script>
     </body>
 </html>
